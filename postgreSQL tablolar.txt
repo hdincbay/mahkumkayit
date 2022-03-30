@@ -1,0 +1,54 @@
+CREATE TABLE mudur(
+	mudurid serial primary key not null,
+	muduradi varchar not null,
+	mudursoyadi varchar not null
+);
+
+CREATE TABLE revir(
+	revirid serial primary key
+);
+
+CREATE TABLE depo(
+	depoid serial primary key
+);
+CREATE TABLE gardiyan(
+	gardiyanid serial primary key,
+	gardiyanadi varchar
+);
+CREATE TABLE hapishane(
+	hapishaneid serial primary key not null,
+	hapishaneadi varchar not null,
+	mudurid serial,
+	revirid serial,
+	depoid serial,
+	gardiyanid serial,
+	foreign key(mudurid) references mudur(mudurid),
+	foreign key(revirid) references revir(revirid),
+	foreign key(depoid) references depo(depoid),
+	foreign key(gardiyanid) references gardiyan(gardiyanid)
+);
+CREATE TABLE kogus(
+	kogusid serial primary key not null,
+	koguskapasite integer not null,
+	hapishaneid serial,
+	foreign key(hapishaneid) references hapishane(hapishaneid)
+);
+CREATE TABLE sorumlu(
+	gardiyanid serial,
+	kogusid serial,
+	foreign key(gardiyanid) references gardiyan(gardiyanid),
+	foreign key(kogusid) references kogus(kogusid)
+);
+CREATE TABLE mahkum(
+	mahkumid serial primary key not null,
+	mahkumadi varchar not null,
+	mahkumceza integer not null,
+	kogusid serial,
+	foreign key(kogusid) references kogus(kogusid)
+);
+CREATE TABLE ziyaretci(
+	ziyaretciid serial primary key not null,
+	ziyaretciadi varchar not null,
+	mahkumid serial,
+	foreign key(mahkumid) references mahkum(mahkumid)
+);
